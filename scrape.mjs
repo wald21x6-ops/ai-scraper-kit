@@ -236,6 +236,7 @@ export async function main(argv = process.argv.slice(2)) {
         return 0;
       }
       case 'update': {
+        if (!fs.existsSync(`${state.KIT}/.git`)) return fail('this copy was downloaded as a zip, so it cannot update itself. Download it again from https://github.com/wald21x6-ops/ai-scraper-kit (your data folder is safe to keep), or install git and clone it.', 4);
         try { out(execFileSync('git', ['-C', state.KIT, 'pull', '--ff-only'], { encoding: 'utf8' }).trim()); }
         catch (err) { return fail(`could not update: ${String(err.stderr || err.message).trim()}`, 4); }
         const taught = agents.install(agents.status().filter((a) => a.installed).map((a) => (a.name === 'Codex' ? 'codex' : 'claude')));

@@ -15,27 +15,45 @@ It takes about five minutes. Your part is making three free accounts and pasting
 ## 🤖 For the AI agent doing the install
 
 You are installing this for the user. Do every step yourself; only the sign-ups and the key pasting are theirs.
-Keep your messages short and plain — the user may not be technical.
+Keep your messages short and plain — the user may not be technical. Paths below use `~/scraper-kit`
+(Git Bash, macOS, Linux); in PowerShell write `$HOMEscraper-kit`, in cmd.exe `%USERPROFILE%scraper-kit`.
 
 1. **Node 22 or newer.** Run `node --version`. If it is missing or older, ask the user, then install it:
    Windows `winget install OpenJS.NodeJS.LTS` · Mac `brew install node` · otherwise send them to https://nodejs.org.
-   Open a new terminal afterwards so `node` is found.
+   If `node` is still not found afterwards, call it by its full path for the rest of the install:
+   Windows `"C:Program Files
+odejs
+ode.exe"` · Mac `/opt/homebrew/bin/node` (Apple silicon) or `/usr/local/bin/node`.
 2. **Get the kit** into a folder called `scraper-kit` in the user's home folder:
    - already there → `git -C ~/scraper-kit pull`
    - otherwise → `git clone https://github.com/wald21x6-ops/ai-scraper-kit ~/scraper-kit`
-   - no git → download https://github.com/wald21x6-ops/ai-scraper-kit/archive/refs/heads/main.zip and unzip it to `~/scraper-kit`
-   (In Windows PowerShell write `$HOME\scraper-kit` instead of `~/scraper-kit`.)
+   - no git → download https://github.com/wald21x6-ops/ai-scraper-kit/archive/refs/heads/main.zip, unzip it,
+     and rename the folder inside (`ai-scraper-kit-main`) to `scraper-kit` in the home folder, so that
+     `~/scraper-kit/scrape.mjs` exists. (A zip copy updates by downloading it again; `update` needs git.)
 3. **Run setup:** `node ~/scraper-kit/scrape.mjs setup`
    It creates the keys file, opens it in Notepad (Windows) or TextEdit (Mac), teaches Claude Code and/or
-   Codex about the kit, and prints three sign-up links.
+   Codex about the kit (see "What setup changes" below), and prints three sign-up links.
 4. **Hand over to the user.** Show them the three links from the output and say: make a free account on each
    (no card needed), copy the API key, paste it after its `=` in the open file, save, and say "done".
+   If the file did not open, give them the path setup printed, or run `node ~/scraper-kit/scrape.mjs keys`.
    Never ask them to paste a key into the chat.
 5. **When they say done:** run `node ~/scraper-kit/scrape.mjs check`. Tell them in plain words what works and
-   how much free credit each service has. If a key "could not be confirmed", ask them to re-copy that one
-   (`node ~/scraper-kit/scrape.mjs keys` reopens the file) and check again.
+   how much free credit each service has. A service still showing "no key yet" was skipped or not saved — say
+   which, and that it's fine to add later. If a key "could not be confirmed", ask them to re-copy that one
+   (`keys` reopens the file) and check again.
 6. **Finish:** tell them to start a new chat so the AI picks up the new skill, and that from now on they can
    just ask for anything from the web — plus "check my scraper" and "update my scraper" work any time.
+
+### What setup changes on the computer
+
+- `~/scraper-kit/data/keys.env` — the keys file (plus budget, history and site memory in the same `data` folder).
+- For each AI it finds (it looks for `~/.claude` or a `claude` command, and `~/.codex` or a `codex` command):
+  - **Claude Code:** a skill at `~/.claude/skills/scraper-kit/`, and a short block at the end of `~/.claude/CLAUDE.md`.
+  - **Codex:** a skill at `~/.agents/skills/scraper-kit/`, and the same block at the end of `~/.codex/AGENTS.md`
+    (or `$CODEX_HOME/AGENTS.md`).
+  - The block sits between `<!-- scraper-kit:start -->` and `<!-- scraper-kit:end -->`. Re-running setup
+    replaces it; `uninstall` removes exactly it and the skill folders. Nothing else in those files is touched.
+- Force a choice with `setup --claude` or `setup --codex`; `--no-open` skips opening the keys file.
 
 ---
 
@@ -69,11 +87,13 @@ You can also say **"check my scraper"** (what works, credits left) or **"update 
 
 Your keys live in `scraper-kit/data/keys.env` on your computer. That folder is never uploaded — it is
 excluded from git. The kit only talks to the three services you gave keys to, and to the websites you ask about.
+Besides its own folder, it adds one skill and one short marked block to your AI's instructions
+(see "What setup changes" above).
 
 ## Remove it
 
-`node ~/scraper-kit/scrape.mjs uninstall` removes the kit's instructions from your AI. Delete the
-`scraper-kit` folder to remove everything, keys included.
+`node ~/scraper-kit/scrape.mjs uninstall` removes the skill and the marked block from your AI's instructions.
+Delete the `scraper-kit` folder to remove everything, keys included.
 
 ---
 
