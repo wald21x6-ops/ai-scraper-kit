@@ -16,14 +16,12 @@ It takes about five minutes. Your part is making three free accounts and pasting
 
 You are installing this for the user. Do every step yourself; only the sign-ups and the key pasting are theirs.
 Keep your messages short and plain — the user may not be technical. Paths below use `~/scraper-kit`
-(Git Bash, macOS, Linux); in PowerShell write `$HOMEscraper-kit`, in cmd.exe `%USERPROFILE%scraper-kit`.
+(Git Bash, macOS, Linux); in PowerShell write `$HOME\scraper-kit`, in cmd.exe `%USERPROFILE%\scraper-kit`.
 
 1. **Node 22 or newer.** Run `node --version`. If it is missing or older, ask the user, then install it:
    Windows `winget install OpenJS.NodeJS.LTS` · Mac `brew install node` · otherwise send them to https://nodejs.org.
    If `node` is still not found afterwards, call it by its full path for the rest of the install:
-   Windows `"C:Program Files
-odejs
-ode.exe"` · Mac `/opt/homebrew/bin/node` (Apple silicon) or `/usr/local/bin/node`.
+   Windows `"C:\Program Files\nodejs\node.exe"` · Mac `/opt/homebrew/bin/node` (Apple silicon) or `/usr/local/bin/node`.
 2. **Get the kit** into a folder called `scraper-kit` in the user's home folder:
    - already there → `git -C ~/scraper-kit pull`
    - otherwise → `git clone https://github.com/wald21x6-ops/ai-scraper-kit ~/scraper-kit`
