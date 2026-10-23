@@ -1,0 +1,10 @@
+{
+  "name": "ai-scraper-kit",
+  "version": "1.0.0",
+  "description": "Give your AI agent the internet: free-first web scraping for Claude Code and Codex, with cost quotes before anything paid.",
+  "type": "module",
+  "bin": { "scraper-kit": "scrape.mjs" },
+  "engines": { "node": ">=22" },
+  "scripts": { "test": "node --test test/*.test.mjs" },
+  "license": "MIT"
+}
